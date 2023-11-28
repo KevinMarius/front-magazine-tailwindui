@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
 import './App.css';
+import IndexRouter from './routes/IndexRouter';
+import SignIn from './pages/SignIn';
+import AdminRouter from './routes/AdminRouter';
+
+import { AuthProvider } from './contexts/AuthContext';
+import { NotificationContainer } from 'react-notifications';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <React.Fragment>
+      <NotificationContainer />
+      <Routes>
+        <Route path='*' element={<IndexRouter />} />
+        <Route path='/signIn' element={<SignIn />} />
+        <Route path="dashboard/*" element={
+          <AuthProvider>
+            <AdminRouter />
+          </AuthProvider>
+        } />
+      </Routes>
+    </React.Fragment>
+  )
 }
 
 export default App;
